@@ -4,7 +4,7 @@
 #
 Name     : unifdef
 Version  : 2.11
-Release  : 5
+Release  : 6
 URL      : http://dotat.at/prog/unifdef/unifdef-2.11.tar.xz
 Source0  : http://dotat.at/prog/unifdef/unifdef-2.11.tar.xz
 Summary  : No detailed summary available
