@@ -1,13 +1,348 @@
 ---------------------------------------------------
-2015-12-03 12:10:08 +0000 Tony Finch <dot@dotat.at> (HEAD -> master, tag: 
-unifdef-2.11)
+2020-02-14 16:49:56 +0000 Tony Finch <dot@dotat.at>
+
+scripts: cleaner Changelog
+
+The Changelog was contaminated by branch name decorations, but I only
+want tags. Although there is a --decorate-refs-exclude option, it does
+not seem to have any effect on the %d format specifier. Seems easier
+to just leave them out altogether.
+
+ scripts/gitlog2changelog.sh | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+---------------------------------------------------
+2020-02-14 16:49:31 +0000 Tony Finch <dot@dotat.at>
 
 Bump copyright dates
 
  COPYING   | 2 +-
- unifdef.1 | 4 ++--
  unifdef.c | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+---------------------------------------------------
+2020-02-14 16:35:26 +0000 Tony Finch <dot@dotat.at>
+
+man: note incomplete C++ raw string literal support
+
+ unifdef.1 | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+---------------------------------------------------
+2020-02-14 17:03:59 +0100 Zenju <zenju@gmx.de>
+
+ C++11 raw string literal support
+
+ unifdef.c | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
+
+---------------------------------------------------
+2017-04-24 10:45:07 +0100 Tony Finch <dot@dotat.at>
+
+doc: clarify where to send bug reports
+
+ README    |  7 ++++---
+ unifdef.1 | 16 +++++++++++-----
+ 2 files changed, 15 insertions(+), 8 deletions(-)
+
+---------------------------------------------------
+2017-03-21 13:26:15 +0000 Tony Finch <dot@dotat.at>
+
+unifdef.1: clarify backslash-newline behaviour in DESCRIPTION
+
+ unifdef.1 | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
+
+---------------------------------------------------
+2017-02-06 18:52:47 +0000 Tony Finch <dot@dotat.at>
+
+web: advertise pre-release version
+
+ web/index.html | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+---------------------------------------------------
+2017-02-06 18:49:50 +0000 Tony Finch <dot@dotat.at>
+
+Bump copyright dates
+
+ COPYING   | 2 +-
+ unifdef.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+---------------------------------------------------
+2017-02-06 18:21:55 +0000 Tony Finch <dot@dotat.at>
+
+unifdef: more fixes for weird whitespace
+
+The previous attempt (in commit 802c5cd6) to deal with some whitespace
+corner cases had a bug when parsing a dangling C comment; rather than
+using the general purpose lexer to scan the dangling line, it assumed
+the line state must be dirty - which is not necessarily the case for
+dangling C comments as it is for long linear whitespace or C++
+comments.
+
+The original example that exposed this problem was from Linux
+__BACKPORT_LINUX_REGULATOR_DRIVER_H_; the test case in this
+commit is based on analysis of the bug.
+
+Reported-By: Pavel.Aronsky@celeno.com
+Reported-By: Aviv.Albagli@celeno.com
+
+ tests/dangle.c            | 6 ++++++
+ tests/dangle.experr       | 0
+ tests/dangle.expout       | 6 ++++++
+ tests/dangle.exprc        | 1 +
+ tests/dangle.sh           | 1 +
+ tests/whitespace-1.experr | 2 +-
+ unifdef.c                 | 6 ++++--
+ 7 files changed, 19 insertions(+), 3 deletions(-)
+
+---------------------------------------------------
+2016-02-26 09:39:13 +0000 Tony Finch <dot@dotat.at>
+
+portability: fix problems compiling with C++ compiler
+
+Michael McConville suggested removing a "redundant" cast of
+the return value from malloc(), based on a change in the
+OpenBSD version of unifdef. This is a good suggestion for
+a purely C program, but the cast is required in C++.
+
+Carsten Hey contributed some portability improvements in
+2012 which included this cast, so that unifdef can be
+compiled with a C++ compiler. Unfortunately since then
+there have been several regressions in C++ support.
+
+This commit fixes those regressions.
+
+ unifdef.c       |  2 +-
+ win32/unifdef.h |  2 +-
+ win32/win32.c   | 10 +++++-----
+ 3 files changed, 7 insertions(+), 7 deletions(-)
+
+---------------------------------------------------
+2016-02-16 16:58:21 +0000 Tony Finch <dot@dotat.at>
+
+test: need newlines in MinGW printf workaround
+
+ tests/outperms.sh  | 2 +-
+ tests/overperms.sh | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+---------------------------------------------------
+2016-02-16 16:03:29 +0000 Tony Finch <dot@dotat.at>
+
+test: GNU printf(1) is POSIXly incorrect
+
+ tests/outperms.sh  | 2 +-
+ tests/overperms.sh | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+---------------------------------------------------
+2016-02-16 14:37:18 +0000 Tony Finch <dot@dotat.at>
+
+test: ugly workaround for lack of chmod() in MinGW
+
+ tests/outperms.sh  | 5 ++++-
+ tests/overperms.sh | 5 ++++-
+ 2 files changed, 8 insertions(+), 2 deletions(-)
+
+---------------------------------------------------
+2016-02-16 14:31:47 +0000 Tony Finch <dot@dotat.at>
+
+win32: nonexistent new file is not an error in rename(old,new)
+
+ win32/win32.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+---------------------------------------------------
+2016-02-16 14:06:53 +0000 Tony Finch <dot@dotat.at>
+
+win32: revert mktempmode() change - it does not help
+
+ win32/win32.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+
+---------------------------------------------------
+2016-02-16 14:05:40 +0000 Tony Finch <dot@dotat.at>
+
+test: revert rm change - I was misreading the error message!
+
+ tests/multi-generic-sh | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+---------------------------------------------------
+2016-02-16 13:53:42 +0000 Tony Finch <dot@dotat.at>
+
+win32: more thorough implementation of mktempmde()
+
+Let's see if this makes the permissions tests pass.
+
+ win32/win32.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+---------------------------------------------------
+2016-02-16 13:43:27 +0000 Tony Finch <dot@dotat.at>
+
+test: suppress error output from rm
+
+POSIX says rm -f should not produce any error messages or nonzero
+exit status, but MinGW fails to follow the rules.
+
+ tests/multi-generic-sh | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+---------------------------------------------------
+2016-02-16 13:35:00 +0000 Tony Finch <dot@dotat.at>
+
+test: typo in stderr redirection, sigh
+
+ tests/000-init.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+---------------------------------------------------
+2016-02-16 13:25:35 +0000 Tony Finch <dot@dotat.at>
+
+test: a hack for MinGW on Travis-CI
+
+The first test that is run for the MinGW build on Travis-CI is
+exploding messily when it tries to initialize Wine, but after that
+most of the other tests run OK. Let's try adding a fake non-test
+to absorb this mess and get closer to a working build.
+
+ tests/000-init.experr | 0
+ tests/000-init.expout | 0
+ tests/000-init.exprc  | 1 +
+ tests/000-init.sh     | 1 +
+ 4 files changed, 2 insertions(+)
+
+---------------------------------------------------
+2016-02-15 17:38:42 +0000 Tony Finch <dot@dotat.at>
+
+win32: preen comment
+
+ win32/win32.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+---------------------------------------------------
+2016-02-15 17:33:12 +0000 Tony Finch <dot@dotat.at>
+
+win32: go back to slow snprintf() because MinGW is still troublesome
+
+ win32/unifdef.h |  1 -
+ win32/win32.c   | 33 ++++++++++++++++++++++++++-------
+ 2 files changed, 26 insertions(+), 8 deletions(-)
+
+---------------------------------------------------
+2016-02-15 17:09:33 +0000 Tony Finch <dot@dotat.at>
+
+README: thanks to Ruediger Meier!
+
+ README | 3 +++
+ 1 file changed, 3 insertions(+)
+
+---------------------------------------------------
+2016-02-15 17:12:45 +0000 Tony Finch <dot@dotat.at>
+
+win32: better snprintf() portability hack
+
+The code is now much shorter and does not malloc or copy.
+
+There is a #define renaming to avoid a name collision since
+Visual Studio 2015 includes a standard snprintf.
+
+Reported-By: Ruediger Meier <ruediger.meier@ga-group.nl>
+
+ win32/unifdef.h |  9 ++++++++-
+ win32/win32.c   | 33 ++++++++-------------------------
+ 2 files changed, 16 insertions(+), 26 deletions(-)
+
+---------------------------------------------------
+2016-02-15 16:20:07 +0000 Tony Finch <dot@dotat.at>
+
+test: try to work better on MinGW
+
+A lot of the test failures are due to CRLFs in stderr which do not
+match the bare LFs in the experr files. So, unilaterally strip CRs
+from stderr output.
+
+We don't need to do this for stdout, since unifdef writes that in
+binary mode so it can match the newline style of the input file.
+
+We might also need to fix the rc files - let's see how this change
+works first.
+
+ scripts/runtests.sh | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+---------------------------------------------------
+2016-02-12 00:47:29 +0100 Ruediger Meier <ruediger.meier@ga-group.nl>
+
+travis: add OSX and Ubuntu Trusty builds
+
+Actually this is a rewrite of .travis.yml:
+ - speedup build (sudo: false)
+ - add OSX build
+ - add Ubuntu 14.04 Trusty build (beta)
+ - MinGW is allowed to fail silently (no more "Still Failing" emails!)
+ - add env output for debugging
+
+Note "apt-get install wine failed" for Trusty, that's why we don't
+check MinGW there.
+
+Signed-off-by: Ruediger Meier <ruediger.meier@ga-group.nl>
+
+ .travis.yml | 42 +++++++++++++++++++++++++++++++++---------
+ 1 file changed, 33 insertions(+), 9 deletions(-)
+
+---------------------------------------------------
+2015-12-07 12:10:30 +0000 Tony Finch <dot@dotat.at>
+
+ifdef-how: what conditionals cause this line to be emitted?
+
+Suggested-by: Anthony Liu <antliu@gmail.com>
+
+ ifdef-how.pl | 42 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 42 insertions(+)
+
+---------------------------------------------------
+2015-12-03 14:34:11 +0000 Tony Finch <dot@dotat.at>
+
+Avoid -Wmissing-initializer
+
+ unifdef.c | 36 ++++++++++++++++++------------------
+ 1 file changed, 18 insertions(+), 18 deletions(-)
+
+---------------------------------------------------
+2015-12-03 14:08:26 +0000 Tony Finch <dot@dotat.at>
+
+man: use .Mt to mark up email addresses
+
+Obtained-from: FreeBSD
+Submitted-by: Franco Fichtner <franco@lastsummer.de>
+
+ unifdef.1 | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+---------------------------------------------------
+2015-12-03 12:15:06 +0000 Tony Finch <dot@dotat.at>
+
+Freecode is read-only
+
+ README         | 3 ---
+ web/index.html | 2 --
+ 2 files changed, 5 deletions(-)
+
+---------------------------------------------------
+2015-12-03 12:10:08 +0000 Tony Finch <dot@dotat.at>
+
+Bump copyright dates
+
+ COPYING         | 2 +-
+ unifdef.1       | 4 ++--
+ unifdef.c       | 2 +-
+ win32/unifdef.h | 2 +-
+ 4 files changed, 5 insertions(+), 5 deletions(-)
 
 ---------------------------------------------------
 2015-12-03 12:06:33 +0000 Tony Finch <dot@dotat.at>
@@ -19,7 +354,7 @@ unifdef-2.11
  2 files changed, 6 insertions(+), 3 deletions(-)
 
 ---------------------------------------------------
-2015-12-03 11:50:46 +0000 Tony Finch <dot@dotat.at> (github/master)
+2015-12-03 11:50:46 +0000 Tony Finch <dot@dotat.at>
 
 Fix uninitialized variable in evaluator.
 
@@ -379,7 +714,7 @@ tests: NetBSD pr#47068
  5 files changed, 6 insertions(+)
 
 ---------------------------------------------------
-2014-01-07 19:16:02 +0000 Tony Finch <dot@dotat.at> (tag: unifdef-2.10)
+2014-01-07 19:16:02 +0000 Tony Finch <dot@dotat.at>
 
 web: update for unifdef-2.10 release
 
@@ -509,7 +844,7 @@ web: update for unifdef-2.9 release
  1 file changed, 3 insertions(+), 10 deletions(-)
 
 ---------------------------------------------------
-2013-06-07 11:53:51 +0100 Tony Finch <dot@dotat.at> (tag: unifdef-2.9)
+2013-06-07 11:53:51 +0100 Tony Finch <dot@dotat.at>
 
 INSTALL: more portability notes.
 
@@ -575,8 +910,7 @@ unifdef: Avoid ssize_t for portability
  1 file changed, 5 insertions(+), 5 deletions(-)
 
 ---------------------------------------------------
-2013-05-10 00:16:01 +0200 Ruediger Meier <ruediger.meier@ga-group.nl> 
-(github/pull/4)
+2013-05-10 00:16:01 +0200 Ruediger Meier <ruediger.meier@ga-group.nl>
 
 travis-ci: fix release traget by git cloning with infinite depth
 
@@ -922,7 +1256,7 @@ web: update for 2.8 release; clearer links to COPYRIGHT and INSTALL
  1 file changed, 5 insertions(+), 11 deletions(-)
 
 ---------------------------------------------------
-2013-05-06 18:07:21 +0100 Tony Finch <dot@dotat.at> (tag: unifdef-2.8)
+2013-05-06 18:07:21 +0100 Tony Finch <dot@dotat.at>
 
 INSTALL: be clearer about dependencies up front
 
@@ -1453,7 +1787,7 @@ Reported-by: Bruce Korb <bruce.korb@gmail.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 ---------------------------------------------------
-2013-03-28 19:05:30 +0000 Tony Finch <dot@dotat.at> (tag: unifdef-2.7)
+2013-03-28 19:05:30 +0000 Tony Finch <dot@dotat.at>
 
 bump copyright dates
 
@@ -2012,7 +2346,7 @@ mismatches.
  1 file changed, 2 insertions(+)
 
 ---------------------------------------------------
-2011-02-22 16:53:10 +0000 Tony Finch <dot@dotat.at> (tag: unifdef-2.6)
+2011-02-22 16:53:10 +0000 Tony Finch <dot@dotat.at>
 
 Release unifdef-2.6
 
@@ -2089,7 +2423,7 @@ Update copyright date.
  3 files changed, 5 insertions(+), 5 deletions(-)
 
 ---------------------------------------------------
-2011-01-18 18:48:45 +0000 Tony Finch <dot@dotat.at> (tag: unifdef-2.5)
+2011-01-18 18:48:45 +0000 Tony Finch <dot@dotat.at>
 
 Release unifdef-2.5
 
@@ -2164,7 +2498,7 @@ web/index.html: Add a link to my homepage in the header.
  1 file changed, 11 insertions(+), 2 deletions(-)
 
 ---------------------------------------------------
-2010-09-13 12:14:15 +0000 Tony Finch <dot@dotat.at> (tag: unifdef-2.4)
+2010-09-13 12:14:15 +0000 Tony Finch <dot@dotat.at>
 
 Re-roll release of unifdef-2.4
 
@@ -2410,7 +2744,7 @@ reversion.sh: tidier version numbers for modified sources
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 ---------------------------------------------------
-2010-03-12 16:27:30 +0000 Tony Finch <dot@dotat.at> (tag: unifdef-2.3)
+2010-03-12 16:27:30 +0000 Tony Finch <dot@dotat.at>
 
 Release unifdef-2.3
 
@@ -2516,7 +2850,7 @@ web/index.html: Fix git clone URL.
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 ---------------------------------------------------
-2010-03-12 10:15:18 +0000 Tony Finch <dot@dotat.at> (tag: unifdef-2.2)
+2010-03-12 10:15:18 +0000 Tony Finch <dot@dotat.at>
 
 Release unifdef-2.2
 
@@ -2580,7 +2914,7 @@ Makefile: safer "realclean" target
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 ---------------------------------------------------
-2010-03-11 21:17:58 +0000 Tony Finch <dot@dotat.at> (tag: unifdef-2.1)
+2010-03-11 21:17:58 +0000 Tony Finch <dot@dotat.at>
 
 Release unifdef-2.1
 
@@ -2723,8 +3057,7 @@ A reminder of how this repository was created.
  3 files changed, 88 insertions(+)
 
 ---------------------------------------------------
-2010-03-10 17:42:54 +0000 Tony Finch <dot@dotat.at> (tag: unifdef-2.0, 
-dotat-cvs)
+2010-03-10 17:42:54 +0000 Tony Finch <dot@dotat.at>
 
 Improved debugging support.
 
