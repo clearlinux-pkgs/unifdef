@@ -1,1 +1,5 @@
-mv %{buildroot}/builddir %{buildroot}/usr
+mkdir -p %{buildroot}/usr/bin
+mkdir -p %{buildroot}/usr/share
+mv %{buildroot}/builddir/bin/* %{buildroot}/usr/bin
+mv %{buildroot}/builddir/share/* %{buildroot}/usr/share
+rm -rf %{buildroot}/builddir

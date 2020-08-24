@@ -4,17 +4,28 @@
 #
 Name     : unifdef
 Version  : 2.12
-Release  : 8
+Release  : 10
 URL      : http://dotat.at/prog/unifdef/unifdef-2.12.tar.xz
 Source0  : http://dotat.at/prog/unifdef/unifdef-2.12.tar.xz
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : BSD-3-Clause
+Requires: unifdef-bin = %{version}-%{release}
 Requires: unifdef-license = %{version}-%{release}
+Requires: unifdef-man = %{version}-%{release}
 
 %description
 unifdef - selectively remove C preprocessor conditionals
 Written by Tony Finch <dot@dotat.at> - http://dotat.at/prog/unifdef/
+
+%package bin
+Summary: bin components for the unifdef package.
+Group: Binaries
+Requires: unifdef-license = %{version}-%{release}
+
+%description bin
+bin components for the unifdef package.
+
 
 %package license
 Summary: license components for the unifdef package.
@@ -22,6 +33,14 @@ Group: Default
 
 %description license
 license components for the unifdef package.
+
+
+%package man
+Summary: man components for the unifdef package.
+Group: Default
+
+%description man
+man components for the unifdef package.
 
 
 %prep
@@ -33,7 +52,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1598289704
+export SOURCE_DATE_EPOCH=1598290144
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -46,22 +65,32 @@ make  %{?_smp_mflags}
 
 
 %install
-export SOURCE_DATE_EPOCH=1598289704
+export SOURCE_DATE_EPOCH=1598290144
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/unifdef
 cp %{_builddir}/unifdef-2.12/COPYING %{buildroot}/usr/share/package-licenses/unifdef/deece2df37f0496129ff6d1c8da988bf69d58311
 %make_install
 ## install_append content
-mv %{buildroot}/builddir %{buildroot}/usr
+mkdir -p %{buildroot}/usr/bin
+mkdir -p %{buildroot}/usr/share
+mv %{buildroot}/builddir/bin/* %{buildroot}/usr/bin
+mv %{buildroot}/builddir/share/* %{buildroot}/usr/share
+rm -rf %{buildroot}/builddir
 ## install_append end
 
 %files
 %defattr(-,root,root,-)
-/usr/builddir/bin/unifdef
-/usr/builddir/bin/unifdefall
-/usr/builddir/share/man/man1/unifdef.1
-/usr/builddir/share/man/man1/unifdefall.1
+
+%files bin
+%defattr(-,root,root,-)
+/usr/bin/unifdef
+/usr/bin/unifdefall
 
 %files license
 %defattr(0644,root,root,0755)
 /usr/share/package-licenses/unifdef/deece2df37f0496129ff6d1c8da988bf69d58311
+
+%files man
+%defattr(0644,root,root,0755)
+/usr/share/man/man1/unifdef.1
+/usr/share/man/man1/unifdefall.1
