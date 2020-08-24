@@ -4,10 +4,10 @@
 #
 Name     : unifdef
 Version  : 2.12
-Release  : 7
+Release  : 8
 URL      : http://dotat.at/prog/unifdef/unifdef-2.12.tar.xz
 Source0  : http://dotat.at/prog/unifdef/unifdef-2.12.tar.xz
-Summary  : Remove #ifdef'ed lines
+Summary  : No detailed summary available
 Group    : Development/Tools
 License  : BSD-3-Clause
 Requires: unifdef-license = %{version}-%{release}
@@ -33,21 +33,20 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1581707564
-# -Werror is for werrorists
+export SOURCE_DATE_EPOCH=1598289704
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
 export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
-export FCFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
-export FFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 "
 export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
 make  %{?_smp_mflags}
 
 
 %install
-export SOURCE_DATE_EPOCH=1581707564
+export SOURCE_DATE_EPOCH=1598289704
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/unifdef
 cp %{_builddir}/unifdef-2.12/COPYING %{buildroot}/usr/share/package-licenses/unifdef/deece2df37f0496129ff6d1c8da988bf69d58311
